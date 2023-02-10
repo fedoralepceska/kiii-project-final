@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment # Kubernetes resource kind we are creating
 metadata:
-  name: kiiiproject-deployment
+  name: kiii-project-deployment
 spec:
   selector:
     matchLabels:
@@ -10,10 +10,10 @@ spec:
   template:
     metadata:
       labels:
-        app: project-kiii
+        app: kiii-project
     spec:
       containers:
-        - name: project-kiii
+        - name: kiii-project
           image: jovanaivanovska11/kiii-project # Image that will be used to containers in the cluster
           imagePullPolicy: IfNotPresent
           ports:
@@ -25,10 +25,10 @@ spec:
 apiVersion: v1 # Kubernetes API version
 kind: Service # Kubernetes resource kind we are creating
 metadata: # Metadata of the resource kind we are creating
-  name: kiiiproject-kubernetes
+  name: kiii-project-k8ssvc
 spec:
   selector:
-    app: project-kiii
+    app: kiii-project
   ports:
     - protocol: "TCP"
       port: 8080 # The port that the service is running on in the cluster
