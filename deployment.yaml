@@ -5,7 +5,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: project-kiii
+      app: kiii-project
   replicas: 2 # Number of replicas that will be created for this deployment
   template:
     metadata:
@@ -13,7 +13,7 @@ spec:
         app: kiii-project
     spec:
       containers:
-        - name: kiii-project
+        - name: project
           image: jovanaivanovska11/kiii-project # Image that will be used to containers in the cluster
           imagePullPolicy: IfNotPresent
           ports:
@@ -25,7 +25,7 @@ spec:
 apiVersion: v1 # Kubernetes API version
 kind: Service # Kubernetes resource kind we are creating
 metadata: # Metadata of the resource kind we are creating
-  name: kiii-project-k8ssvc
+  name: project-k8ssvc
 spec:
   selector:
     app: kiii-project
