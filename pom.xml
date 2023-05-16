@@ -82,6 +82,6 @@
                 </configuration>
             </plugin>
         </plugins>
-        <finalName>kiii-project</finalName>
+        <finalName>kiii-project-final</finalName>
     </build>
 </project>
