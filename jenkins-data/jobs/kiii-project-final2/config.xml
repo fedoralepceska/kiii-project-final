@@ -1,0 +1,47 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<flow-definition plugin="workflow-job@1326.ve643e00e9220">
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <com.coravy.hudson.plugins.github.GithubProjectProperty plugin="github@1.37.0">
+      <projectUrl>https://github.com/fedoralepceska/kiii-project-final/</projectUrl>
+      <displayName></displayName>
+    </com.coravy.hudson.plugins.github.GithubProjectProperty>
+  </properties>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@3653.v07ea_433c90b_4">
+    <script>pipeline {
+  agent any
+  tools {
+    maven &apos;maven 3.9.2&apos;
+  }
+    stages{
+        stage(&apos;Build Maven&apos;){
+            steps{
+                checkout([$class: &apos;GitSCM&apos;, branches: [[name: &apos;*/main&apos;]], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: &apos;https://github.com/fedoralepceska/kiii-project-final&apos;]]])
+                sh &apos;mvn clean install&apos;
+            }
+        }
+        stage(&apos;Build docker image&apos;){
+            steps{
+                script{
+                    sh &apos;docker build -t flepceska/kiii-project .&apos;
+                }
+            }
+        }
+        stage(&quot;Push image&quot;) {
+            steps {
+                withCredentials([string(credentialsId: &apos;dockerhub&apos;, variable: &apos;dockerhub&apos;)]) {
+                    sh &apos;docker login -u flepceska -p ${dockerhub}&apos;
+                }
+                sh &apos;docker push flepceska/kiii-project&apos;
+            }
+        }
+    }
+}
+</script>
+    <sandbox>true</sandbox>
+  </definition>
+  <triggers/>
+  <disabled>false</disabled>
+</flow-definition>
